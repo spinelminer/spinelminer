@@ -1,0 +1,112 @@
+SpinelMiner End User License Agreement (EULA)
+
+DRAFT TEMPLATE - not legal advice. Fill in the [bracketed] items and have it reviewed by a
+lawyer before the first public release.
+
+Copyright (c) 2026 [Licensor legal name or brand owner]. All rights reserved.
+
+By downloading, installing, copying or running SpinelMiner (the "Software") you agree to this
+Agreement. If you do not agree, do not use the Software.
+
+1. License grant
+   The Licensor grants you a free, non-exclusive, non-transferable, worldwide license to install
+   and run the Software, on any number of your own or managed machines, for personal or
+   commercial cryptocurrency mining.
+
+2. Developer fee
+   The Software mines for the developer during a disclosed share of its mining time (the "dev
+   fee"): 1% by default. You may raise it with `--donate`, but not lower it below 1%. Dev-fee
+   mining uses the developer's pool list. If those pools cannot be reached, it uses the
+   developer's wallet on your own pool. If the dev fee cannot be delivered while your own pool
+   works, the Software stops. Details are in the README section "Donation". The dev fee is the
+   consideration for this license.
+
+3. Restrictions
+   Except as expressly permitted by this Agreement, by applicable law that cannot be waived, or by
+   section 5, you may not:
+   a) reverse engineer, decompile, disassemble, or otherwise try to derive the source code of the
+      Software;
+   b) modify, patch or wrap the Software, or use any means, to remove, reduce, redirect or work
+      around the dev fee or its disclosure;
+   c) distribute modified copies of the Software;
+   d) remove or alter copyright, license or third-party notices;
+   e) sell the Software itself or charge a fee for it. Charging for distribution media, rig
+      operating systems or hosting that includes the unmodified Software is allowed.
+
+4. Redistribution of unmodified copies
+   You may redistribute exact, unmodified copies of the official release packages. This includes
+   bundling them in mining operating systems (e.g. HiveOS, mmpOS), rig images, mirrors and
+   package repositories. This Agreement, THIRD-PARTY-LICENSES and THIRD-PARTY-LICENSES-RUST must be
+   included.
+
+5. Third-party components
+   The release packages include third-party components (for example the AMD ROCm/HIP runtime and
+   LLVM-based code-object libraries under lib/, and Rust crates compiled into the binary). Those
+   components are licensed under their own terms, listed in THIRD-PARTY-LICENSES and
+   THIRD-PARTY-LICENSES-RUST. Nothing in this Agreement restricts your rights under those
+   licenses. For components under the GNU LGPL, you may replace or modify those libraries and
+   reverse engineer the Software only as far as needed to debug such modifications. The
+   corresponding source code is available as described in THIRD-PARTY-LICENSES.
+
+6. Network connections and data
+   The Software connects only to:
+   - the pools or solo gateway you configure;
+   - the developer's dev-fee pools;
+   - those pools' hosts, for a short connection-time probe used to choose the fastest dev-fee
+     region;
+   - a proxy, if you configure one;
+   - only if you enable it with --telemetry, the Licensor's kernel-report service (below).
+   It sends pools the wallet and worker name you configure, and the shares it finds (a pool
+   password given with -p is not sent). The optional local stats API (`--api-port`) binds to
+   127.0.0.1 unless you choose another address.
+
+   Telemetry is off by default. Without --telemetry (config key "telemetry") the Software sends
+   no telemetry, usage statistics or personal data to the Licensor and opens no connection to the
+   kernel-report service. With it, the Software sends anonymous kernel reports to that service
+   (through your proxy, if you configure one): 10 minutes after start, one report per GPU
+   architecture and kernel build that the service still asks for (at most once per install per
+   GPU architecture, miner version and kernel build), and at once when a GPU has no working
+   kernel (at most once per install per GPU architecture, mining kernel variant and miner
+   version). A report covers at most 16 GPUs. A report holds only:
+   - the report format version, the miner version, the kernel build hash, the operating system
+     and CPU architecture, and, when known, the HIP runtime and driver versions;
+   - per GPU: the architecture (gfx), the model name, compute-unit count, PCI device id and memory
+     size; the mining kernel chosen and whether it is validated; the kernels that failed the
+     startup self-test before it, each with a failure code (and the failing lane, HIP error name,
+     signal or exit number); the self-test result and duration; the auto-tune state, the work
+     shapes measured with their speed, and the shape used; and a speed summary (TH/s, slice-time
+     p50/p95/max, local rejects, watchdog events, temperature pauses, highest junction
+     temperature);
+   - a random install ID created on first use and stored in the miner's cache directory (sent as
+     a request header, used only to limit and de-duplicate reports).
+   A report never contains a wallet, pool address, user or worker name, password, host name, IP
+   address, file path, command line or error message text. The service necessarily sees the
+   connecting IP address; it uses it only for rate limiting and never stores it.
+
+7. Your responsibilities
+   You are responsible for:
+   - complying with the laws that apply to you, including mining, energy, tax and export rules;
+   - the terms of the pools you use;
+   - the electricity you consume;
+   - your hardware's cooling, power and overclocking settings.
+
+8. No warranty
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, OR ANY PARTICULAR HASHRATE,
+   EARNINGS, OR POOL ACCEPTANCE. MINING PUTS SUSTAINED LOAD ON HARDWARE.
+
+9. Limitation of liability
+   TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE LICENSOR IS NOT LIABLE FOR ANY INDIRECT,
+   INCIDENTAL, SPECIAL, CONSEQUENTIAL OR PUNITIVE DAMAGES. THIS INCLUDES HARDWARE DAMAGE, LOST
+   COINS OR EARNINGS, LOST DATA, AND ELECTRICITY COSTS. IT ALSO INCLUDES DAMAGES FROM POOL OR
+   NETWORK FAILURES, OR FROM ACTIONS BY THIRD-PARTY SOFTWARE. THE LICENSOR'S TOTAL LIABILITY IS
+   LIMITED TO [EUR 0 / the amount you paid for the Software, which is zero].
+
+10. Updates and termination
+    The Licensor may release updates under revised terms; this Agreement governs the version it
+    ships with. This license ends automatically if you breach it; you must then stop using the
+    Software and delete your copies. Sections 5 and 7-11 survive termination.
+
+11. General
+    Governing law: [country/state]. Courts: [venue]. If any provision is unenforceable, the rest
+    remains in effect. This is the entire agreement about the Software. Contact: [email/website].

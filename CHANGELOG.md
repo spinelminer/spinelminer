@@ -1,0 +1,57 @@
+# Changelog
+
+## 0.4.0
+
+<!-- Source: Cargo.toml version = "0.4.0"; git log of KL0nLutiy/spinel-miner; docs/superpowers/specs (m3, m4a, m4b, m4c, windows-adlx-sensors); RESULTS.md; README.md -->
+First release. The miner was called `prlminer` during development and renamed SpinelMiner
+(`spinelminer`) on 2026-10-21.
+
+### Mining
+
+- Pool mining over Stratum (`-o`, `stratum+ssl://` and `stratum+tcp://`) with failover to backup
+  URLs and primary-pool probing; solo mining through a pearl-gateway (`--solo`); `--benchmark` on a
+  synthetic job with every share verified on the CPU.
+- Pool login dialect `kryptex`, used by Kryptex, HeroMiners, PearlFortune, LuckyPool and AlphaPool
+  (live 1 h runs clean on 2026-10-20; longer checks pending). PearlHash, GrandPool, F2Pool, Akoya
+  and MinePRL are untested or unusable, see the user guide's Pools page.
+- Same-height job continuity for pools that accept superseded jobs; per-rig row offsets so rigs on
+  identical headers rarely collide.
+
+### GPUs and speed
+
+- Validated on RDNA4: RX 9070 series (gfx1201) and RX 9060 series (gfx1200). Measured 132.4 / 69.0
+  TH/s (RX 9070 XT / RX 9060 XT) at stock power limits, `--benchmark --seconds 120`.
+- Per-GPU tuning of the RDNA4 kernel (rasterization group per GPU, k = 8192 on gfx1201, later kernel
+  changes worth about +0.3% to +0.9%).
+- Unvalidated kernels for RDNA3 / RDNA3.5, CDNA, Vega, RDNA1 and RDNA2 (never run on that
+  hardware). Startup self-test of every GPU's kernel with a fallback chain (unvalidated kernels are
+  tested in a child process), and on-device auto-tune with a local cache (`--autotune`).
+- Integrated GPUs are only used when named with `-d` / `--devices-pci`.
+
+### Options and tooling
+
+- `--api-port` / `--api-host`: JSON stats API (`/api/v1/summary`, `/api/v1/gpus`).
+- `--temp-limit`, `--proxy` (SOCKS5), `--config` (JSON), `--log-file`, `--log-level`, `--worker`,
+  `--devices-pci`, `--no-watchdog`.
+- `--power-spike-limit <GPU:WATTS,...>`: optional per-GPU power limit that stops the whole run.
+- `--kernel-report <file>`: anonymous JSON report of kernel and speed data.
+- `--telemetry`: opt-in (off by default) anonymous kernel reports.
+- Windows GPU sensors read through AMD's ADLX library (hot-spot or edge temperature, memory
+  temperature, power, fan RPM and clocks where the driver reports them; `fan_percent` stays
+  `null`). The stats API, HiveOS-style stats and `--temp-limit` therefore work on Windows. Without
+  ADLX the sensors read `null` and the miner warns that `--temp-limit` cannot protect the GPU.
+- Per-GPU PCIe traffic counter: host-to-device and device-to-host copy rates (MB/s) in the status
+  lines, the stats API (`pcie_h2d_mbps`, `pcie_d2h_mbps`) and the kernel report. See the user guide's
+  PCIe risers page.
+
+### Developer donation
+
+- 1.0% of mining time by default (`--donate`, range 1.0 to 50.0), with developer pools and region
+  selection, a fallback to your own pool, and a stop rule (exit code 4). See the README.
+
+### Packages
+
+- Linux slim and bundled tarballs, HiveOS custom-miner package, mmpOS package, Windows zip.
+  Linux binaries are built against glibc 2.28. Kernels are built with ROCm 10.1 / HIP 7.16.
+- HiveOS, mmpOS and Windows packages have not been verified on real HiveOS, mmpOS or Windows
+  hardware at the time of this release.
