@@ -38,7 +38,7 @@ then reports any problem itself.
 
 **`HIP runtime not found; install ROCm 6.x or 7.x (libamdhip64) or set SPINEL_HIP_LIB to its path; tried: ...`** (exit code 2)
 
-- Use the **bundled** Linux tarball and start it with the `spinelminer` launcher, which needs no
+- Use the Linux package (`spinelminer-<ver>-linux.tar.xz`) and start it with the `spinelminer` launcher, which needs no
   ROCm install; or install the ROCm 6.x / 7.x HIP runtime; or set `SPINEL_HIP_LIB` to the full path
   of `libamdhip64.so`.
 - On Windows the text says `install an AMD Adrenalin driver or the HIP SDK (ROCm 6.x or 7.x, amdhip64_*.dll)`;

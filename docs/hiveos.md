@@ -1,6 +1,6 @@
 # HiveOS
 
-SpinelMiner ships as a HiveOS **custom miner** package, `spinelminer-<ver>.tar.gz`.
+SpinelMiner ships as a HiveOS **custom miner** package, `spinelminer_hiveos-<ver>.tar.gz`.
 
 > **Unverified on a real HiveOS rig.** The package follows the public HiveOS custom-miner
 > conventions (`h-manifest.conf`, `h-config.sh`, `h-run.sh`, `h-stats.sh`) and has been tested
@@ -21,8 +21,8 @@ Create a flight sheet with **Miner: Custom** and fill in:
 
 | Field | Value |
 |---|---|
-| Miner name | `spinelminer` |
-| Installation URL | the URL of `spinelminer-<ver>.tar.gz` (the unsuffixed `spinelminer-<ver>.tar.gz` release file). HiveOS splits the archive name at the last `-` into name and version, so the version must not contain `-`. |
+| Miner name | `spinelminer_hiveos` |
+| Installation URL | the URL of `spinelminer_hiveos-<ver>.tar.gz` (for 0.4.0 only, the file is `spinelminer-0.4.0.tar.gz`). HiveOS splits the archive name at the last `-` into name and version, so the version must not contain `-`. |
 | Wallet and worker template | `wallet.%WORKER_NAME%`, with `wallet` replaced by your PRL address |
 | Pool URL | e.g. `stratum+ssl://de.pearl.herominers.com:1200`. Several URLs separated by spaces become failover pools, in order. |
 | Pass | optional; ignored. The miner sends pools no password and logs a warning for a value other than empty or `x`. |
@@ -49,8 +49,8 @@ Note: the arguments, including any password, are visible to other users of the r
 
 The miner appends its log, including the 30-second status lines, to the file given by
 `--log-file`: `<CUSTOM_LOG_BASENAME>.log`. HiveOS sets `CUSTOM_LOG_BASENAME`; outside HiveOS the
-manifest's default is `/var/log/miner/custom/spinelminer`, i.e.
-`/var/log/miner/custom/spinelminer.log`. Colour codes are off (`--no-color`), so the file is plain
+manifest's default is `/var/log/miner/custom/spinelminer_hiveos`, i.e.
+`/var/log/miner/custom/spinelminer_hiveos.log`. Colour codes are off (`--no-color`), so the file is plain
 text.
 
 ## Stats in the HiveOS dashboard

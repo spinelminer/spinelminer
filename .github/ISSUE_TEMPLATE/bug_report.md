@@ -25,7 +25,7 @@ Output of `spinelminer --list-devices`:
 
 - OS and version (Linux distribution + kernel, Windows build, HiveOS or mmpOS version):
 - GPU driver (amdgpu / amdgpu-dkms version, or AMD Adrenalin version):
-- Package used (linux-bundled, linux, hiveos, mmpos, windows):
+- Package used (linux, hiveos, mmpos, windows):
 
 ## Kernel report
 

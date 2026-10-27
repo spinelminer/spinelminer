@@ -6,9 +6,9 @@ and Vega/RDNA1/RDNA2 are included but have never run on that hardware. See [the 
 NVIDIA GPUs and CPUs are not supported.
 
 **Do I need to install ROCm?**
-Not with the bundled Linux tarball or the HiveOS / mmpOS packages: they carry the HIP runtime.
-The slim Linux tarball needs the ROCm 6.x or 7.x HIP runtime (`libamdhip64`). You always need the
-amdgpu kernel driver. See [Install on Linux](install-linux.md).
+No. The Linux package and the HiveOS / mmpOS packages carry the HIP runtime. You only need the
+amdgpu kernel driver (kernel 6.14+ for RX 9000). To use your own ROCm anyway, point
+`SPINEL_HIP_LIB` at its `libamdhip64.so`. See [Install on Linux](install-linux.md).
 
 **Is the binary called `prlminer` or `spinelminer`?**
 `spinelminer`. The miner was called `prlminer` before it was renamed SpinelMiner; the start

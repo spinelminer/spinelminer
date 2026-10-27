@@ -16,7 +16,7 @@ can load them.
 
 ## What the host needs
 
-Whichever tarball you use:
+What the host needs:
 
 1. The **amdgpu kernel driver** with `/dev/kfd` (the GPU compute device). For RX 9000 cards
    (RDNA4) this needs **kernel 6.14 or newer**, or AMD's **amdgpu-dkms** driver package on an
@@ -33,28 +33,22 @@ Whichever tarball you use:
 The miner checks the driver at startup and stops with a clear message if `/dev/kfd` is missing or
 not accessible; see [Troubleshooting](troubleshooting.md#driver-and-devkfd-messages).
 
-## Choose a tarball
+## The download
 
-Two Linux tarballs are published:
+One Linux package is published: `spinelminer-<ver>-linux.tar.xz`. It holds the miner, docs,
+start scripts and `lib/` with 15 ROCm runtime libraries (about 228 MB unpacked, about 58 MB
+download). **No ROCm install needed: only the amdgpu kernel driver (kernel 6.14+ for RX 9000)**
+and the permissions above.
 
-| Tarball | Contents | Needs on the host |
-|---|---|---|
-| `spinelminer-<ver>-linux.tar.gz` (slim) | the miner binary, docs, start scripts | ROCm installed: `libamdhip64.so.7` or `.so.6` (ROCm 6.x or 7.x HIP runtime) |
-| `spinelminer-<ver>-linux-bundled.tar.gz` (bundled) | the same plus `lib/` with 15 ROCm runtime libraries (about 270 MB unpacked) | no ROCm install; only the kernel driver and permissions above |
-
-In the **bundled** tarball, start the miner with the `spinelminer` launcher. It sets `SPINEL_HIP_LIB`
-and `LD_LIBRARY_PATH` to the `lib/` directory next to it and runs the real binary,
-`spinelminer.bin`. Do not run `spinelminer.bin` directly unless you set those yourself.
-
-In the **slim** tarball, `spinelminer` is the miner binary itself. To use a specific HIP runtime,
-set `SPINEL_HIP_LIB` to the full path of `libamdhip64.so`.
-
-If in doubt, take the bundled tarball: it avoids a ROCm install.
+Start the miner with the `spinelminer` launcher. It sets `SPINEL_HIP_LIB` and `LD_LIBRARY_PATH`
+to the `lib/` directory next to it and runs the real binary, `spinelminer.bin`. Do not run
+`spinelminer.bin` directly unless you set those yourself. To use your own ROCm instead, set
+`SPINEL_HIP_LIB` to the full path of its `libamdhip64.so` before starting.
 
 ## Install and check
 
 ```
-tar xzf spinelminer-<ver>-linux-bundled.tar.gz
+tar xf spinelminer-<ver>-linux.tar.xz
 cd spinelminer-<ver>
 ./spinelminer --list-devices
 ```

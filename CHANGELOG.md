@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.4.1
+
+<!-- Source: Cargo.toml version = "0.4.1"; RESULTS.md "M6 wave64 kernel and A = B = 64 operands" -->
+- Faster RDNA4 mining: new wave64 kernel (`mine_rdna4_w64`, 8 x 4 WMMA tiles per wave) and committed
+  operand matrices filled with 64 instead of 0, so the noised operands are never negative and the
+  card switches fewer bits per multiply. Power-capped cards clock higher at the same power. On the
+  developer's rig (owner's power limits and undervolt, `--benchmark --seconds 90`, both GPUs):
+  RX 9070 XT 135.6 -> **146.1 TH/s** (+7.7%), RX 9060 XT ~71 -> **79.6 TH/s** (+12%).
+- Checked on HeroMiners for 6 h: 539 accepted, 0 rejected, 2 stale; pool-credited rate within 0.5%
+  of the local rate. The previous kernel (`mine_rdna4`) stays as the self-test fallback.
+- HiveOS package renamed to `spinelminer_hiveos-<ver>.tar.gz` (top folder `spinelminer_hiveos/`, miner name `spinelminer_hiveos`, log `/var/log/miner/custom/spinelminer_hiveos.log`), following the SRBMiner/BzMiner convention so HiveOS derives the miner name from the file name. Release 0.4.0 shipped it as `spinelminer-0.4.0.tar.gz`; reinstall with the new URL when updating.
+
 ## 0.4.0
 
 <!-- Source: Cargo.toml version = "0.4.0"; git log of KL0nLutiy/spinel-miner; docs/superpowers/specs (m3, m4a, m4b, m4c, windows-adlx-sensors); RESULTS.md; README.md -->
@@ -51,7 +63,7 @@ First release. The miner was called `prlminer` during development and renamed Sp
 
 ### Packages
 
-- Linux slim and bundled tarballs, HiveOS custom-miner package, mmpOS package, Windows zip.
+- Linux package (`spinelminer-<ver>-linux.tar.xz`, ROCm runtime bundled and stripped, no slim build; use `SPINEL_HIP_LIB` for your own ROCm), HiveOS custom-miner package, mmpOS package (both `.tar.gz`), Windows zip.
   Linux binaries are built against glibc 2.28. Kernels are built with ROCm 10.1 / HIP 7.16.
 - HiveOS, mmpOS and Windows packages have not been verified on real HiveOS, mmpOS or Windows
   hardware at the time of this release.

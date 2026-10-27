@@ -26,12 +26,12 @@ HiveOS / mmpOS packages.
 | Setting | RX 9070 XT | RX 9060 XT |
 |---|---|---|
 | stock power limits (330 W / 170 W caps), earlier kernel build (RESULTS.md row O2) | 132.4 TH/s | 69.0 TH/s |
-| **with the owner's -50 mV VDDGFX undervolt on both cards**, current kernel build (row O3) | 139.2 TH/s | 70.8 TH/s |
+| **with the owner's -50 mV VDDGFX undervolt on both cards**, 0.4.0 kernel build (row O3) | 139.2 TH/s | 70.8 TH/s |
+| **0.4.1**, owner's settings (300 W / 170 W limits, undervolt), `--seconds 90` (RESULTS.md M6) | **146.1 TH/s** | **79.6 TH/s** |
 
-These come from one run each on the developer's rig. The 139.2 / 70.8 figures were measured with
-the owner's -50 mV undervolt and are not stock speeds; RESULTS.md has no stock-settings measurement
-of the current kernel build. For that build it records only a measured gain at stock settings of
-+0.86% / +0.28% over the O2 build. Your numbers depend on the card, cooling, undervolt and driver.
+These come from one run each on the developer's rig. The 139.2 / 70.8 and 146.1 / 79.6 figures were
+measured with the owner's undervolt and power limits and are not stock speeds; there is no stock-settings
+measurement of the 0.4.0 or 0.4.1 kernel builds. Your numbers depend on the card, cooling, undervolt and driver.
 
 Other AMD architectures are not benchmarked. At startup every GPU runs a known-answer self-test of
 its kernel (about 25 ms on RDNA4; unvalidated kernels run it in a child process, so a crashing kernel
@@ -46,13 +46,12 @@ VRAM: about 6.1 GiB on an RX 9070 XT and about 3.1 GiB on an RX 9060 XT, plus sm
 
 <!-- Source: tools/package.sh finish() naming; .github/workflows/release.yml "Release notes" table -->
 Pick a file from the [latest release](https://github.com/spinelminer/spinelminer/releases/latest).
-Replace `<ver>` with the version, for example `0.4.0`; release tags are `v<ver>`.
+Replace `<ver>` with the version, for example `0.4.1`; release tags are `v<ver>`.
 
 | File | For |
 |---|---|
-| `spinelminer-<ver>-linux-bundled.tar.gz` | Linux, ROCm runtime included (start with `./spinelminer`) |
-| `spinelminer-<ver>-linux.tar.gz` | Linux with ROCm installed on the host |
-| `spinelminer-<ver>.tar.gz` | HiveOS custom miner |
+| `spinelminer-<ver>-linux.tar.xz` | Linux, ROCm runtime included, no ROCm install needed (start with `./spinelminer`) |
+| `spinelminer_hiveos-<ver>.tar.gz` | HiveOS custom miner |
 | `spinelminer-<ver>-mmpos.tar.gz` | mmpOS |
 | `spinelminer-<ver>-windows.zip` | Windows (AMD Adrenalin driver with HIP runtime) |
 | `SHA256SUMS` | checksums of all of the above |
@@ -60,9 +59,8 @@ Replace `<ver>` with the version, for example `0.4.0`; release tags are `v<ver>`
 Direct URLs:
 
 ```
-https://github.com/spinelminer/spinelminer/releases/download/v<ver>/spinelminer-<ver>-linux-bundled.tar.gz
-https://github.com/spinelminer/spinelminer/releases/download/v<ver>/spinelminer-<ver>-linux.tar.gz
-https://github.com/spinelminer/spinelminer/releases/download/v<ver>/spinelminer-<ver>.tar.gz
+https://github.com/spinelminer/spinelminer/releases/download/v<ver>/spinelminer-<ver>-linux.tar.xz
+https://github.com/spinelminer/spinelminer/releases/download/v<ver>/spinelminer_hiveos-<ver>.tar.gz
 https://github.com/spinelminer/spinelminer/releases/download/v<ver>/spinelminer-<ver>-mmpos.tar.gz
 https://github.com/spinelminer/spinelminer/releases/download/v<ver>/spinelminer-<ver>-windows.zip
 https://github.com/spinelminer/spinelminer/releases/download/v<ver>/SHA256SUMS
@@ -78,12 +76,12 @@ Replace `<wallet>` with your own PRL address (`prl1...`). Stop the miner with Ct
 
 ### Linux
 
-You need the amdgpu kernel driver with `/dev/kfd` (kernel 6.14 or newer for RX 9000 cards, or AMD's
+No ROCm install needed: only the amdgpu kernel driver (kernel 6.14+ for RX 9000). You need it with `/dev/kfd` (kernel 6.14 or newer for RX 9000 cards, or AMD's
 amdgpu-dkms) and your user in the `render` and `video` groups
 (`sudo usermod -aG render,video $USER`, then log in again). Details: [Install on Linux](docs/install-linux.md).
 
 ```
-tar xzf spinelminer-<ver>-linux-bundled.tar.gz
+tar xf spinelminer-<ver>-linux.tar.xz
 cd spinelminer-<ver>
 ./spinelminer --list-devices
 ./spinelminer --benchmark --seconds 60
@@ -107,7 +105,7 @@ spinelminer.exe -o stratum+ssl://de.pearl.herominers.com:1200 -u <wallet> --work
 ### HiveOS
 
 Custom miner, installation URL
-`https://github.com/spinelminer/spinelminer/releases/download/v<ver>/spinelminer-<ver>.tar.gz`.
+`https://github.com/spinelminer/spinelminer/releases/download/v<ver>/spinelminer_hiveos-<ver>.tar.gz`.
 Not yet verified on a real HiveOS rig. Steps: [hiveos.md](hiveos.md), details: [docs/hiveos.md](docs/hiveos.md).
 
 ### mmpOS
