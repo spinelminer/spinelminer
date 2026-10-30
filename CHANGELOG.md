@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.4.2
+
+<!-- Source: Cargo.toml version = "0.4.2"; RESULTS.md "M7 0.4.2" -->
+- Faster RDNA4 mining, same power draw. Kernel: 4 waves per SIMD (A fragments loaded in 4 parts),
+  each accumulator's 4 WMMA steps chained back to back, serpentine tile order, and 256-row blocks
+  on the RX 9070 series so pairs of waves share B through the L0 cache. Engine: the Merkle root of A
+  reuses its cached chunk groups, B noise is generated once per job, and a host-visible hit flag
+  replaces per-slice counter copies (non-mining GPU time ~1.7% -> ~0.7%).
+- Developer's rig, same overclock for both versions (`--benchmark --seconds 120`, both GPUs, 2
+  rounds, all shares verified): RX 9070 XT 149.4 -> **153.4 TH/s** (+2.6%), RX 9060 XT 81.8 ->
+  **83.5 TH/s** (+2.1%).
+- Overclock used (LACT): RX 9070 XT 280 W power limit, +300 MHz GPU clock offset, -100 mV
+  voltage offset; RX 9060 XT 170 W, +150 MHz, -90 mV. Against the previous -60 / -50 mV at the
+  same power limits that adds +3.2% / +3.2%. Every card is different: lower the undervolt if
+  shares are rejected.
+- Checked on HeroMiners: 7 h at the earlier 300 W settings, 604 accepted / 0 rejected / 1 stale;
+  50 min with the overclock above, 87 accepted / 0 rejected, rig 236.8 TH/s.
+
 ## 0.4.1
 
 <!-- Source: Cargo.toml version = "0.4.1"; RESULTS.md "M6 wave64 kernel and A = B = 64 operands" -->

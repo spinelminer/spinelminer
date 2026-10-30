@@ -27,11 +27,12 @@ HiveOS / mmpOS packages.
 |---|---|---|
 | stock power limits (330 W / 170 W caps), earlier kernel build (RESULTS.md row O2) | 132.4 TH/s | 69.0 TH/s |
 | **with the owner's -50 mV VDDGFX undervolt on both cards**, 0.4.0 kernel build (row O3) | 139.2 TH/s | 70.8 TH/s |
-| **0.4.1**, owner's settings (300 W / 170 W limits, undervolt), `--seconds 90` (RESULTS.md M6) | **146.1 TH/s** | **79.6 TH/s** |
+| 0.4.1, owner's settings (300 W / 170 W limits, undervolt), `--seconds 90` (RESULTS.md M6) | 146.1 TH/s | 79.6 TH/s |
+| **0.4.2**, owner's settings (LACT: 280 W / +300 MHz / -100 mV and 170 W / +150 MHz / -90 mV) (RESULTS.md M7) | **153.4 TH/s** | **83.5 TH/s** |
 
-These come from one run each on the developer's rig. The 139.2 / 70.8 and 146.1 / 79.6 figures were
-measured with the owner's undervolt and power limits and are not stock speeds; there is no stock-settings
-measurement of the 0.4.0 or 0.4.1 kernel builds. Your numbers depend on the card, cooling, undervolt and driver.
+These come from one run each on the developer's rig. The 139.2 / 70.8, 146.1 / 79.6 and 153.4 / 83.5 figures
+were measured with the owner's undervolt and power limits and are not stock speeds; there is no
+stock-settings measurement of the 0.4.0, 0.4.1 or 0.4.2 kernel builds. Your numbers depend on the card, cooling, undervolt and driver.
 
 Other AMD architectures are not benchmarked. At startup every GPU runs a known-answer self-test of
 its kernel (about 25 ms on RDNA4; unvalidated kernels run it in a child process, so a crashing kernel
@@ -46,7 +47,7 @@ VRAM: about 6.1 GiB on an RX 9070 XT and about 3.1 GiB on an RX 9060 XT, plus sm
 
 <!-- Source: tools/package.sh finish() naming; .github/workflows/release.yml "Release notes" table -->
 Pick a file from the [latest release](https://github.com/spinelminer/spinelminer/releases/latest).
-Replace `<ver>` with the version, for example `0.4.1`; release tags are `v<ver>`.
+Replace `<ver>` with the version, for example `0.4.2`; release tags are `v<ver>`.
 
 | File | For |
 |---|---|
