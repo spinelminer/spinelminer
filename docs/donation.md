@@ -100,3 +100,14 @@ resets the count.
 
 To fix an exit code 4, allow the developer pool hosts listed in the message through your firewall,
 DNS filter or proxy (or let your pool accept the developer wallet).
+
+## Quantus (`-a quantus`)
+
+The same rate, schedule, fallback and stop rule apply. The differences:
+
+- Developer pools: HeroMiners QTC (`stratum+ssl://<region>.quantus.herominers.com:1155`, regions
+  `de`, `fi`, `fr`, `us`, `us2`, `us3`, `sg`, `hk`, `jp`, `br`, `ru`), then Kryptex QTC
+  (`stratum+ssl://qtc.kryptex.network:8049` and its `eu`, `us`, `sg`, `ru` hosts). They are tried in
+  that order; within a pool the host you mine on yourself goes first.
+- Developer address: `qznqVouET7NKFoL5fi57jLCjVKqaJ4ixXaqFs18XhrQy4VSJ7`, login `<address>.devfee`.
+- There is no latency probe: the window line has no `(<rtt> ms)` and `--donate-region` has no effect.

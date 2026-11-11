@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.5.0
+
+<!-- Source: Cargo.toml version = "0.5.0"; RESULTS.md "M8 0.5.0"; quantus/README.md -->
+- **Quantus (QTC) mining**: `-a quantus` (aliases `qtc`, `qpow`) mines Quantus QPoW in a pool, e.g.
+  `spinelminer -a quantus -o stratum+ssl://de.quantus.herominers.com:1155 -u <wallet> --worker rig1`.
+  Checked live on HeroMiners and Kryptex. Developer's rig and overclock, live on Kryptex for 20 min:
+  RX 9070 XT 334.7 MH/s, RX 9060 XT 186.7 MH/s, 35 shares accepted / 1 stale / 0 rejected. Every
+  GPU hit is re-hashed on the CPU before it is submitted. `--benchmark -a quantus` measures the raw
+  kernel hashrate; `--solo` stays Pearl only.
+- The Quantus kernel is tuned for RDNA4. Every other architecture gets a portable kernel that is
+  **unvalidated** on that hardware and untuned; such a GPU hashes 4096 nonces at startup and is
+  skipped unless they match the CPU reference.
+- Donation for Quantus: the same 1% of mining time and the same rules as Pearl, on HeroMiners QTC
+  first and Kryptex QTC as the backup, to the developer address
+  `qznqVouET7NKFoL5fi57jLCjVKqaJ4ixXaqFs18XhrQy4VSJ7`. See [docs/donation.md](docs/donation.md).
+- Pearl: RX 9060 XT cards with 12 GiB or more now mine the larger k = 8192 shape (developer's 16 GB
+  card: 83.6 -> 84.1 TH/s); 8 GB cards are unchanged.
+- Pearl: `-p d=N` is sent to the pool as a custom share difficulty (Kryptex format).
+- Examples: optional NOCK merge mining in the LuckyPool start scripts.
+
 ## 0.4.2
 
 <!-- Source: Cargo.toml version = "0.4.2"; RESULTS.md "M7 0.4.2" -->

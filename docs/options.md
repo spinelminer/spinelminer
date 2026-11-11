@@ -22,9 +22,9 @@ Exactly one mode is needed. Without one, the miner exits with code 1 and
 |---|---|
 | `-u`, `--user <WALLET>` | Pool login, e.g. `<wallet>` or `<wallet>.<worker>`. Sent as given unless `--worker` appends one. Requires `-o`. Alias: `--wallet`. |
 | `--worker <NAME>` | Appends `.NAME` to `-u`. NAME must be non-empty and contain no `.` or `/`, and `-u` must not already contain `.` or `/`. Requires `-o`. |
-| `-p`, `--pass <PASS>` | Accepted for flight-sheet compatibility but ignored: no password is sent to the pool. A value other than empty or `x` logs a warning. Requires `-o`. Alias: `--password`. |
+| `-p`, `--pass <PASS>` | Custom share difficulty `d=N` (for example `-p d=2097152` on Kryptex) is sent to the pool; anything else is accepted for flight-sheet compatibility but ignored, and a value other than empty or `x` logs a warning. Requires `-o`. Alias: `--password`. |
 | `--pool-dialect <NAME>` | Force the pool protocol dialect for all URLs (default: chosen by host). Needed for a host the miner does not know. Known dialects: `kryptex`. Requires `-o`. |
-| `-a`, `--algo <NAME>` | Accepted for flight-sheet compatibility: `pearl`, `pearlhash` or `prl` (any case). Any other name exits with code 1. |
+| `-a`, `--algo <NAME>` | Coin to mine (any case): `pearl` (default; also `pearlhash`, `prl`) or `quantus` (also `qtc`, `qpow`), see [Quantus pools](pools.md#quantus-qtc-pools). Any other name exits with code 1. `--solo` is Pearl only. |
 
 See [Pools](pools.md) for URLs and login formats.
 

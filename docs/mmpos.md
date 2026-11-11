@@ -40,7 +40,7 @@ SpinelMiner ships as an mmpOS **custom (external) miner** package.
 | `tcp` + `host:port` | `-o stratum+tcp://host:port` |
 | pool that already has a scheme (`stratum+ssl://...`) | used as given |
 | user | `-u <user>` (e.g. `<wallet>.<worker>`) |
-| password | `-p <password>`, which the miner accepts and ignores (it sends pools no password) |
+| password | `-p <password>`; only a custom difficulty `d=N` is sent to the pool, anything else is ignored |
 | api port (missing or 0 -> 4067) | `--api-port <port>` |
 | extra arguments | passed on unchanged, after the above (see [Options](options.md)) |
 

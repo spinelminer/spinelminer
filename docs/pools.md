@@ -13,8 +13,8 @@ working, check the pool's own website. Where no fee is recorded, check the pool'
 - Repeat `-o` for failover. The first URL is the primary. After 3 failures in a row the miner
   moves to the next URL, and while on a backup it tries the primary again every 5 minutes.
 - `-u` is sent to the pool as given. `--worker NAME` appends `.NAME`.
-- `-p` is accepted but never sent: every supported pool uses the `kryptex` protocol dialect, whose
-  login has no password field. Password tricks such as AlphaPool's `x;d=N` fixed difficulty do not
+- `-p` is only sent as a custom share difficulty `d=N` (see [Kryptex](#kryptex)); any other value
+  is accepted but never sent. Password tricks such as AlphaPool's `x;d=N` fixed difficulty do not
   apply.
 - The protocol dialect is chosen from the host name. Only the hosts listed under "Supported pools"
   are known. For any other host, add `--pool-dialect kryptex` (the only dialect); the miner exits
@@ -68,6 +68,10 @@ spinelminer -o stratum+ssl://de.pearl.herominers.com:1200 -o stratum+ssl://fi.pe
 
 - Login: `<wallet>.<worker>` or `<wallet>/<worker>` (Kryptex accepts both).
 - The two ports use different start difficulties.
+- Custom share difficulty: `-p d=N`, sent in the format Kryptex documents
+  (N = hashrate in H/s × seconds per share / 4294967296). On 2026-10-31 the pool accepted the
+  field but still sent difficulty 4194304 for every N on both ports, so it may not take effect yet.
+  Share difficulty does not change earnings, only how often shares are sent.
 - Fee: not recorded in the notes; see the pool's site.
 
 ```
@@ -96,10 +100,14 @@ spinelminer -o stratum+tcp://global.pearlfortune.org:8888 -u <wallet>/rig1
 - TLS uses a self-signed certificate, so use plain TCP (`stratum+tcp://`).
 - Restricted networks: replace `luckypool.io` with `lproute.com`, same port.
 - Login: `<wallet>.<worker>`.
-- Fee: not recorded in the notes; see the pool's site.
+- Merge mining: Nockchain (NOCK) on the same hashrate. Login `<wallet>+<nock address>.<worker>`
+  (a native Nockchain address; wrapped `0x...` or Solana NOCK addresses cannot be paid). The scripts
+  take it as `NOCK=`. PRL side (pool API, 2026-10-31): 1% fee, PROP, payouts every 2 h, default
+  threshold 5 PRL (minimum 1, set on the pool's dashboard).
 
 ```
 spinelminer -o stratum+tcp://pearl-eu2.luckypool.io:3360 -u <wallet> --worker rig1
+spinelminer -o stratum+tcp://pearl-eu2.luckypool.io:3360 -u <wallet>+<nock address> --worker rig1
 ```
 
 ### AlphaPool
@@ -110,12 +118,31 @@ spinelminer -o stratum+tcp://pearl-eu2.luckypool.io:3360 -u <wallet> --worker ri
 - Only port 5571 works with spinelminer. Ports 5566 and 5573 are for the pool's own miner and use a
   different protocol.
 - Login: `<wallet>.<worker>`. The pool's `x;d=N` password option for fixed difficulty does not
-  apply, because spinelminer sends no password; the pool uses variable difficulty.
+  apply, because spinelminer only sends a plain `d=N`; the pool uses variable difficulty.
 - Fee: 1 %, PROP.
 
 ```
 spinelminer -o stratum+tcp://eu1.alphapool.tech:5571 -u <wallet> --worker rig1
 ```
+
+## Quantus (QTC) pools
+
+With `-a quantus` the miner mines Quantus (QPoW). Checked live on 2026-11-11:
+
+| Pool | URL | Login | Fee (pool's figure, 2026-11-11) |
+|---|---|---|---|
+| HeroMiners | `stratum+ssl://<region>.quantus.herominers.com:1155` (TLS and plain TCP on the same port; regions `de`, `fi`, `fr`, `us`, `us2`, `us3`, `sg`, `hk`, `jp`, `br`, `ru`) | `<wallet>.<worker>` | 1 % |
+| Kryptex | `stratum+ssl://qtc.kryptex.network:8049` or `stratum+tcp://qtc-eu.kryptex.network:7049` (also `qtc-us`, `qtc-sg`, `qtc-ru`) | `<wallet>.<worker>` or the Kryptex account e-mail | 3 % |
+
+```
+spinelminer -a quantus -o stratum+ssl://de.quantus.herominers.com:1155 -u <wallet> --worker rig1
+```
+
+- Other Quantus pools were not tried. Both pools above speak the same line-delimited JSON protocol
+  (`login`, `job`, `submit`); a pool with another protocol will refuse the login.
+- `--pool-dialect` does not apply, and the pool's TLS certificate is not verified (Kryptex's QTC
+  endpoints use a self-signed one).
+- `--solo` is Pearl only. `--benchmark -a quantus` measures the raw kernel hashrate.
 
 ## Pools that do not work with spinelminer
 

@@ -25,7 +25,7 @@ Create a flight sheet with **Miner: Custom** and fill in:
 | Installation URL | the URL of `spinelminer_hiveos-<ver>.tar.gz` (for 0.4.0 only, the file is `spinelminer-0.4.0.tar.gz`). HiveOS splits the archive name at the last `-` into name and version, so the version must not contain `-`. |
 | Wallet and worker template | `wallet.%WORKER_NAME%`, with `wallet` replaced by your PRL address |
 | Pool URL | e.g. `stratum+ssl://de.pearl.herominers.com:1200`. Several URLs separated by spaces become failover pools, in order. |
-| Pass | optional; ignored. The miner sends pools no password and logs a warning for a value other than empty or `x`. |
+| Pass | optional. Only a custom difficulty `d=N` (Kryptex) is sent; anything else is ignored, with a warning for a value other than empty or `x`. |
 | Extra config arguments | extra command-line options, e.g. `--temp-limit 85` or `-d 0,1`. See [Options](options.md). |
 
 How the fields become a command line (`h-config.sh`):

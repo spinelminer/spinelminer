@@ -1,7 +1,7 @@
 # SpinelMiner
 
 <!-- Source: README.md (intro), docs/user-guide/index.md in the private repo KL0nLutiy/spinel-miner -->
-Closed-source GPU miner for Pearl (PRL) on AMD graphics cards. This repository holds no source code:
+Closed-source GPU miner for Pearl (PRL) and Quantus (QTC) on AMD graphics cards. This repository holds no source code:
 only documentation and [GitHub Releases](https://github.com/spinelminer/spinelminer/releases).
 The use of the binaries is governed by [LICENSE.txt](LICENSE.txt).
 
@@ -47,7 +47,7 @@ VRAM: about 6.1 GiB on an RX 9070 XT and about 3.1 GiB on an RX 9060 XT, plus sm
 
 <!-- Source: tools/package.sh finish() naming; .github/workflows/release.yml "Release notes" table -->
 Pick a file from the [latest release](https://github.com/spinelminer/spinelminer/releases/latest).
-Replace `<ver>` with the version, for example `0.4.2`; release tags are `v<ver>`.
+Replace `<ver>` with the version, for example `0.5.0`; release tags are `v<ver>`.
 
 | File | For |
 |---|---|
@@ -120,6 +120,25 @@ see [docs/mmpos.md](docs/mmpos.md).
 Live 1 h runs were clean on Kryptex, PearlFortune, LuckyPool, HeroMiners and AlphaPool (2026-10-20);
 longer dashboard checks were still pending. See [docs/pools.md](docs/pools.md) for hosts and ports.
 
+## Quantus (QTC)
+
+<!-- Source: quantus/README.md table; docs/user-guide/pools.md "Quantus (QTC) pools" -->
+`-a quantus` mines Quantus (QPoW) in a pool:
+
+```
+spinelminer -a quantus -o stratum+ssl://de.quantus.herominers.com:1155 -u <wallet> --worker rig1
+```
+
+| | RX 9070 XT | RX 9060 XT |
+|---|---|---|
+| Live on Kryptex, 20 min, developer's rig and overclock | 334.7 MH/s | 186.7 MH/s |
+
+The kernel is tuned for RDNA4 (RX 9070 / 9060 series). Every other architecture uses a portable
+kernel that is **unvalidated** on that hardware and untuned (about 60% of the tuned speed when run
+on RDNA4); at startup such a GPU hashes 4096 nonces and is skipped unless they match the CPU
+reference. Pools: HeroMiners and Kryptex, see [docs/pools.md](docs/pools.md#quantus-qtc-pools).
+`--solo` is Pearl only.
+
 ## Donation
 
 <!-- Source: README.md "Donation" section, verbatim -->
@@ -153,6 +172,13 @@ README)`) and logged at every window. It applies to pool (`-o`) and `--solo` run
   since the first failed window; with `--solo`, every gateway poll succeeded and at least one job on a
   new block arrived since the first failed window. A broken network or an outage of your own pool
   never stops mining.
+- **Quantus (`-a quantus`)**: the same rate, schedule, fallback and stop rule. The developer pools
+  are HeroMiners QTC (`<region>.quantus.herominers.com:1155`: `de`, `fi`, `fr`, `us`, `us2`, `us3`,
+  `sg`, `hk`, `jp`, `br`, `ru`), then Kryptex QTC (`qtc.kryptex.network` and its `eu`, `us`, `sg`,
+  `ru` hosts), tried in that order; within a pool the host you mine on yourself goes first. The
+  developer address is
+  `qznqVouET7NKFoL5fi57jLCjVKqaJ4ixXaqFs18XhrQy4VSJ7` (login `<address>.devfee`). There is no latency
+  probe, so the window line has no `(<rtt> ms)`, and `--donate-region` has no effect.
 
 ## Telemetry
 
