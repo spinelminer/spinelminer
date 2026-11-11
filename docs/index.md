@@ -1,11 +1,12 @@
 # SpinelMiner user guide
 
-SpinelMiner is a GPU miner for Pearl (PRL) on AMD graphics cards. The program is called
+SpinelMiner is a GPU miner for Pearl (PRL) and Quantus (QTC) on AMD graphics cards. The program is called
 `spinelminer` (`spinelminer.exe` on Windows).
 
 It can:
 
 - mine in a pool over Stratum (`-o`, with failover to backup pools),
+- mine Quantus instead of Pearl with `-a quantus` (pool only, see [Pools](pools.md#quantus-qtc-pools)),
 - mine solo through your own `pearl-gateway` (`--solo`),
 - run a benchmark on a synthetic job (`--benchmark`),
 - serve JSON statistics over HTTP (`--api-port`).
@@ -42,6 +43,7 @@ VRAM use: about 6.1 GiB on an RX 9070 XT and about 3.1 GiB on an RX 9060 XT, plu
 | [Stats API](api.md) | `/api/v1/summary` and `/api/v1/gpus` |
 | [PCIe risers](pcie-risers.md) | host<->GPU traffic, x1 riser feasibility |
 | [Donation](donation.md) | The developer donation (dev fee) |
+| [Telemetry](telemetry.md) | The opt-in anonymous kernel reports: what is sent and when |
 | [Troubleshooting](troubleshooting.md) | Error messages and what to do |
 | [FAQ](faq.md) | Short answers to common questions |
 

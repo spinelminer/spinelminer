@@ -1,12 +1,17 @@
 # Changelog
 
+## Unreleased
+
+- Quantus start scripts in the Linux and Windows packages: `start_quantus_herominers` and
+  `start_quantus_kryptex` (`.sh` / `.bat`).
+
 ## 0.5.0
 
 <!-- Source: Cargo.toml version = "0.5.0"; RESULTS.md "M8 0.5.0"; quantus/README.md -->
 - **Quantus (QTC) mining**: `-a quantus` (aliases `qtc`, `qpow`) mines Quantus QPoW in a pool, e.g.
   `spinelminer -a quantus -o stratum+ssl://de.quantus.herominers.com:1155 -u <wallet> --worker rig1`.
-  Checked live on HeroMiners and Kryptex. Developer's rig and overclock, live on Kryptex for 20 min:
-  RX 9070 XT 334.7 MH/s, RX 9060 XT 186.7 MH/s, 35 shares accepted / 1 stale / 0 rejected. Every
+  Checked live on HeroMiners and Kryptex. Developer's rig and overclock, live pool mining:
+  RX 9070 XT 339.1 MH/s, RX 9060 XT 186.7 MH/s. Every
   GPU hit is re-hashed on the CPU before it is submitted. `--benchmark -a quantus` measures the raw
   kernel hashrate; `--solo` stays Pearl only.
 - The Quantus kernel is tuned for RDNA4. Every other architecture gets a portable kernel that is
