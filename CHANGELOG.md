@@ -1,10 +1,5 @@
 # Changelog
 
-## Unreleased
-
-- Quantus start scripts in the Linux and Windows packages: `start_quantus_herominers` and
-  `start_quantus_kryptex` (`.sh` / `.bat`).
-
 ## 0.5.0
 
 <!-- Source: Cargo.toml version = "0.5.0"; RESULTS.md "M8 0.5.0"; quantus/README.md -->
@@ -24,6 +19,9 @@
   card: 83.6 -> 84.1 TH/s); 8 GB cards are unchanged.
 - Pearl: `-p d=N` is sent to the pool as a custom share difficulty (Kryptex format).
 - Examples: optional NOCK merge mining in the LuckyPool start scripts.
+- Start scripts for Quantus in the Linux and Windows packages: `start_quantus_herominers` and
+  `start_quantus_kryptex` (`.sh` / `.bat`). The 0.5.0 packages were rebuilt on 2026-11-11 to add
+  them; the miner itself is unchanged. Re-download `SHA256SUMS` if you verify an older download.
 
 ## 0.4.2
 

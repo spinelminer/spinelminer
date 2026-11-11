@@ -136,8 +136,8 @@ on Windows too. See [Install on Windows](docs/install-windows.md).
 
 The Linux and Windows packages include ready-to-edit start scripts, one per pool
 (`start_herominers`, `start_kryptex`, `start_luckypool`, ... as `.sh` / `.bat`), described in
-`START-SCRIPTS.md` inside the package. Quantus scripts (`start_quantus_herominers`,
-`start_quantus_kryptex`) come with the release after 0.5.0.
+`START-SCRIPTS.md` inside the package. The Quantus ones are `start_quantus_herominers` and
+`start_quantus_kryptex`.
 
 ### HiveOS
 
