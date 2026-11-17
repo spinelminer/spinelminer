@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.6.0
+
+<!-- Source: Cargo.toml version = "0.6.0"; RESULTS.md "M9 0.6.0"; docs/intel-xe.md -->
+- **Intel Arc GPUs (experimental, Pearl only)**: on a PC without an AMD runtime the miner drives
+  Intel GPUs through the OpenCL of the Intel graphics driver (architecture `xe` in
+  `--list-devices`). Nothing extra to install. Measured on the only Intel GPU run so far, a laptop
+  Arc 140V (Core Ultra 7 256V, Windows 11, driver 32.0.101.9175): **26.3 TH/s**
+  (`--benchmark --seconds 120`, 37 shares, all verified on the CPU), 22.1 TH/s with the fallback
+  kernel.
+- What is **not** tested on Intel: pool and solo mining (only `--benchmark` was run), Linux, and
+  every GPU other than the Arc 140V. Arc B570 / B580 use the same kernel as the 140V and should
+  work; Arc A series and the Arc 140T depend on a kernel that has never run; GPUs without matrix
+  engines (Iris Xe, UHD, Meteor Lake Arc) get a slow kernel (4.5 TH/s on the 140V) and are not
+  worth mining on. As with every unvalidated GPU, a kernel that fails the start-up self-test is
+  never used.
+- Quantus has no Intel kernel. The Intel NPU is not used: it lowers the total.
+- Pearl: 256-row blocks on the RX 9060 series (developer's 16 GB card: 83.6 -> 84.0 TH/s).
+
 ## 0.5.0
 
 <!-- Source: Cargo.toml version = "0.5.0"; RESULTS.md "M8 0.5.0"; quantus/README.md -->

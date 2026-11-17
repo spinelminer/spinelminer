@@ -1,6 +1,7 @@
 # SpinelMiner user guide
 
-SpinelMiner is a GPU miner for Pearl (PRL) and Quantus (QTC) on AMD graphics cards. The program is called
+SpinelMiner is a GPU miner for Pearl (PRL) and Quantus (QTC) on AMD graphics cards, with experimental
+Pearl mining on Intel Arc GPUs. The program is called
 `spinelminer` (`spinelminer.exe` on Windows).
 
 It can:
@@ -20,6 +21,7 @@ It can:
 | RDNA3 / RDNA3.5 | gfx1100-gfx1103, gfx1150-gfx1153 | kernels included, never run on that hardware |
 | CDNA | gfx908, gfx90a, gfx942, gfx950 | kernels included, never run on that hardware |
 | Vega / RDNA1 / RDNA2 (no matrix units) | gfx900, gfx906, gfx1010-gfx1012, gfx1030-gfx1036 | kernels included, never run on that hardware |
+| Intel Arc (Pearl only, used when no AMD runtime is installed) | xe | experimental: run on an Arc 140V only, `--benchmark` only |
 
 Every GPU listed in the table is reported as "supported" by `--list-devices`. Other devices are
 listed as unsupported and skipped. Integrated GPUs (APU iGPUs) are only used when you name them

@@ -2,7 +2,7 @@
 
 <!-- Source: README.md, docs/user-guide/, RESULTS.md and quantus/README.md in the private repo KL0nLutiy/spinel-miner -->
 Closed-source GPU miner for **Pearl (PRL)** and **Quantus (QTC)** on AMD graphics cards, tuned for
-the RX 9070 and RX 9060 series. This repository holds no source code: only documentation and
+the RX 9070 and RX 9060 series. Since 0.6.0 it also mines Pearl on Intel Arc GPUs (experimental). This repository holds no source code: only documentation and
 [GitHub Releases](https://github.com/spinelminer/spinelminer/releases). The use of the binaries is
 governed by [LICENSE.txt](LICENSE.txt).
 
@@ -17,14 +17,17 @@ governed by [LICENSE.txt](LICENSE.txt).
 
 ## Speed
 
-<!-- Source: RESULTS.md "M7", "M8"; CHANGELOG.md 0.5.0 -->
+<!-- Source: RESULTS.md "M7", "M8", "M9"; CHANGELOG.md 0.5.0, 0.6.0 -->
 | GPU | Pearl (PRL) | Quantus (QTC) |
 |---|---|---|
 | RX 9070 XT | 153.4 TH/s | 339.1 MH/s |
 | RX 9060 XT 16 GB | 84.1 TH/s | 186.7 MH/s |
+| Intel Arc 140V (laptop, experimental) | 26.3 TH/s | not supported |
 
 Measured on the developer's rig with the overclock below; these are not stock speeds. Pearl:
 `--benchmark --seconds 120`, both GPUs at once, all shares verified. Quantus: live pool mining.
+The Arc 140V figure is from a stock
+Core Ultra 7 256V laptop on Windows 11 (`--benchmark --seconds 120`, all shares verified).
 Your numbers depend on the card, cooling, settings and driver. Earlier versions are in
 [CHANGELOG.md](CHANGELOG.md).
 
@@ -47,6 +50,7 @@ Every card is different: if shares get rejected, reduce the undervolt by 10-20 m
 | RDNA3 / RDNA3.5 | gfx1100-gfx1103, gfx1150-gfx1153 | **unvalidated** | **unvalidated** |
 | CDNA | gfx908, gfx90a, gfx942, gfx950 | **unvalidated** | **unvalidated** |
 | Vega / RDNA1 / RDNA2 | gfx900, gfx906, gfx1010-gfx1012, gfx1030-gfx1036 | **unvalidated** | **unvalidated** |
+| Intel Arc | xe (OpenCL) | **experimental** | not supported |
 
 "Unvalidated" means kernels are included but were never run on that hardware, and they are not
 tuned or benchmarked. The miner protects you from a wrong kernel:
@@ -63,6 +67,23 @@ The only unvalidated device tried so far is an RDNA2 integrated GPU (gfx1036): i
 worth mining on (about 0.5 TH/s Pearl, 5 MH/s Quantus). Integrated GPUs are never used by default,
 only when named with `-d` / `--devices-pci`.
 
+### Intel Arc (experimental)
+
+<!-- Source: docs/intel-xe.md in the private repo -->
+On a PC with no AMD runtime the miner uses Intel GPUs through the OpenCL of the Intel graphics
+driver; nothing else needs installing. Pearl only.
+
+| GPU | Status |
+|---|---|
+| Arc 140V (Lunar Lake) | run: 26.3 TH/s in `--benchmark`, 22.1 TH/s with the fallback kernel |
+| Arc 130V, Arc B570 / B580, Arc Pro B series | never run; same kernel as the 140V |
+| Arc A series, Arc 140T / 130T | never run; depends on a kernel that has never executed |
+| Iris Xe, UHD, Meteor Lake Arc (no matrix engines) | not worth mining: 4.5 TH/s on the 140V with that kernel |
+
+Only `--benchmark` was run on Intel, on Windows 11 with driver 32.0.101.9175: pool mining, solo
+mining and Linux are **not tested**. The same start-up self-test applies, and every share is
+verified on the CPU in the benchmark. The Intel NPU is not used.
+
 VRAM for Pearl: about 6.1 GiB on an RX 9070 XT or a 16 GB RX 9060 XT, about 3.1 GiB on an 8 GB
 RX 9060 XT, plus small buffers.
 
@@ -70,14 +91,14 @@ RX 9060 XT, plus small buffers.
 
 <!-- Source: tools/package.sh finish() naming; .github/workflows/release.yml "Release notes" table -->
 Pick a file from the [latest release](https://github.com/spinelminer/spinelminer/releases/latest).
-Replace `<ver>` with the version, for example `0.5.0`; release tags are `v<ver>`.
+Replace `<ver>` with the version, for example `0.6.0`; release tags are `v<ver>`.
 
 | File | For |
 |---|---|
 | `spinelminer-<ver>-linux.tar.xz` | Linux, ROCm runtime included, no ROCm install needed (start with `./spinelminer`) |
 | `spinelminer_hiveos-<ver>.tar.gz` | HiveOS custom miner |
 | `spinelminer-<ver>-mmpos.tar.gz` | mmpOS |
-| `spinelminer-<ver>-windows.zip` | Windows (AMD Adrenalin driver with HIP runtime) |
+| `spinelminer-<ver>-windows.zip` | Windows (AMD Adrenalin driver with HIP runtime, or an Intel Arc graphics driver) |
 | `SHA256SUMS` | checksums of all of the above |
 
 Direct URLs have the form
@@ -118,7 +139,8 @@ Quantus:
 
 ### Windows
 
-Install a current AMD Adrenalin driver (it provides the HIP runtime), unzip
+Install a current AMD Adrenalin driver (it provides the HIP runtime; for an Intel Arc GPU, a
+current Intel graphics driver), unzip
 `spinelminer-<ver>-windows.zip`, then run the same commands with `spinelminer.exe`:
 
 ```
